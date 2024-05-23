@@ -28,17 +28,43 @@ package ch6;
  * 
  * 	 인스턴스 변수 초기화(생성자 사용 전)
  *   d1.value = 100;
+ *   d2.value = 200;
+ *   d3.value = 300;
+ *   d4.value = 400;
+ *   d5.value = 500;
  *   
  *   인스턴스 변수 초기화(생성자 사용 후)
- *   Data1(100);
+ *   Data1(100,200,300,400,500));
  * 
  * - 생성자에서 다른 생성자 호출 : 클래스 내에 여러개의 생성자가 있는 경우
  * 
  * - 생성자를 이용한 인스턴스 복사
  *   현재 사용하고 있는 인스턴스와 같은 상태를 갖는 인스턴스를 하나 더 만들고자 하는 경우 : 게임에서의 분신술
  *   상태가 동일함 : 고유정보(주민번호)가 동일하다는 의미 X
+ *   
  *   생성자의 매개변수를 해당 클래스의 참조변수로 매개변수를 받으면 구현 가능
  *   
+ * - 멤버변수의 초기화 : 기본값으로 초기화됨.
+ *   지역변수는 반드시 초기화가 필수
+ *   
+ * - 멤버변수의 초기화 방법
+ *   1. 명시적 초기화
+ *      class car {
+ *      	int doorType = 4;//기본형
+ *      
+ *      	DoorType dt = new DoorType(); //참조형
+ *      }
+ *   
+ *   	참조변수.멤버변수 = 100;
+ *   2. 생성자
+ *   3. 초기화 블록
+ *      - 인스턴스 변수 초기화 블록 : 인스턴스 변수가 대상.				
+ *      - 클래스(static) 변수 초기화 블록 : 클래스 변수가 대상
+ *      
+ *      - 동작
+ *        클래스가 메모리에 처음 로딩될 때 한 번만 수행되며,
+ *        인스턴스 초기화 블럭은 생성자와 같이 인스턴스를 생성할 때마다 수행됨.
+ *        인스턴스 초기화 블럭은 생성자 보다 먼서 초기화 블럭이 수행됨.
  */  
 public class OopEx2 {
 	
@@ -46,11 +72,20 @@ public class OopEx2 {
 		
 		// Data1, Data2 인스턴스 생성
 		Data1 data1 = new Data1();
-		Data2 data2 = new Data2();	// 개발자가 생성자를 생성한 경우, 컴파일러는 기본 생성자 제공 X
-		Data2 data3 = new Data2(77L);	// 개발자가 생성자를 생성한 경우, 컴파일러는 기본 생성자 제공 X
+		Data2 data2 = new Data2();		// 개발자가 생성자를 생성한 경우, 컴파일러는 기본 생성자 제공 X
+		Data2 data3 = new Data2(77L);	
 		System.out.println("data1.value : "+data1.value);
 		System.out.println("data2.value : "+data2.value);
 		System.out.println("data3.value : "+data3.value);
+		
+		/* 생성자를 이용한 인스턴스 복사 */
+		Car car1 = new Car();
+		System.out.println(car1);
+		System.out.println(car1.color);
+		
+		Car car2 = new Car(car1);
+		System.out.println(car2);
+		System.out.println(car2.color);
 		
 		
 		
