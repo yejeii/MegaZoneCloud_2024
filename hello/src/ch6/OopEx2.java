@@ -65,8 +65,36 @@ package ch6;
  *        클래스가 메모리에 처음 로딩될 때 한 번만 수행되며,
  *        인스턴스 초기화 블럭은 생성자와 같이 인스턴스를 생성할 때마다 수행됨.
  *        인스턴스 초기화 블럭은 생성자 보다 먼서 초기화 블럭이 수행됨.
- */  
+ * 
+ * - 멤버변수의 초기화 시점
+ *   클래스 변수 : 클래스가 처음 로딩될 때 단 한번 초기화
+ *   인스턴스 변수 : 인스턴스가 생성될 때 마다 각 인스턴스별로 초기화 
+ *   
+ * - 멤버변수의 초기화 우선순위
+ *   클래스 변수 : 기본값 -> 명시적 초기화 -> 클래스 초기화 블럭
+ *   인스턴스 변수 : 기본값 -> 명시적 초기화 -> 인스턴스 초기화 블럭 -> 생성자
+ */ 
 public class OopEx2 {
+	
+	// 클래스 변수
+	public static int staticVar = 0;
+	
+	/* 클래스 변수 초기화 시점 확인 */
+	// 클래스 변수 초기화 블럭 
+	// main() 바깥에 위치하는 것에 유의해 실행해볼 것
+	static {
+		System.out.println("staticVar(block()) : " + staticVar);
+	}
+	
+	
+	// 인스턴스 변수 초기화 블럭
+	{
+		System.out.println("인스턴스 변수 초기화 블럭 호출 ");
+	}
+	
+	public OopEx2() {
+		System.out.println("OopEx2 생성자 호출");
+	}
 	
 	public static void main(String[] args) {
 		
@@ -86,6 +114,11 @@ public class OopEx2 {
 		Car car2 = new Car(car1);
 		System.out.println(car2);
 		System.out.println(car2.color);
+		
+		/* 인스턴스 변수 초기화 시점 확인 */
+		OopEx2 oopEx2 = new OopEx2();
+		
+		
 		
 		
 		
