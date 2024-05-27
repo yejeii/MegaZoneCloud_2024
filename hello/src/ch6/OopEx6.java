@@ -1,9 +1,7 @@
 package ch6;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Vector;
+import java.util.function.BiConsumer;
 
 /**
  * ======================== 다형성 적용 =============================
@@ -46,13 +44,16 @@ public class OopEx6 {
 		System.out.println();
 		
 		// 구매 완료 후 구매 목록 출력
-		for (Map.Entry<Integer, Products> pEntry : buyer.buyList.entrySet()) {
-//			Integer cnt = pEntry.getKey();
-//			Products product = pEntry.getValue();
-			System.out.printf("%d번째 구매 : %s", pEntry.getKey(), pEntry.getValue());
-			System.out.println();
-			
-		}
+		buyer.getBuyList();
+		System.out.println();
+		
+		// 반품 : index를 삭제키로 PK키로 생각
+		buyer.refund(1);
+		System.out.println();
+		
+		// 구매자의 잔고 확인
+		System.out.printf("구매자 잔고 현황 : %d, %d", buyer.getMoney(), buyer.getBonusPoint());
+		
 		
 	}
 }
@@ -64,6 +65,27 @@ class Products {
 	int price;
 	int bonusPoint;
 	
+	
+	public int getPrice() {
+		return price;
+	}
+
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+
+	public int getBonusPoint() {
+		return bonusPoint;
+	}
+
+
+	public void setBonusPoint(int bonusPoint) {
+		this.bonusPoint = bonusPoint;
+	}
+
+
 	Products(int price) {
 		this.price = price;
 		this.bonusPoint = (int) (price * 0.1);
@@ -106,11 +128,32 @@ class Computer extends Products {
  * 구매자(회원)
  */
 class Buyer {
+	/*
+	 * 캡슐화를 적용하게 되면 멤버변수는 외부에서 접근 불가 -> getter, setter를 통해 접근
+	 */
 	int money = 4000;
 	int bonusPoint = 0;
-	int buycnt = 0;	// 상품 총 구매 개수
+	int buycnt = 0;		// 상품 총 구매 개수
 	
-	Map<Integer, Products> buyList = new HashMap<>();
+	/* 
+	 * 문제. 현재 구매 후에는 소유할 수 없는 상태.. 
+	 * 구매한 객체를 확인하고 싶음 : 객체 배열 활용
+	 * 
+	 * 객체 배열의 단점 : 구매할 수 있는 상품의 가지수가 제한됨
+	 * -> 구매 개수에 대한 제한이 없도록 하기위한 방법 모색하고자 함
+	 * 
+	 * -> 다형성을 적용한 객체 배열 생성
+	 */
+//	Products[] list = new Products[10];		// 배열길이를 명시적으로 초기화해야 하는 불편함... 
+	Vector<Products> buyList = new Vector<>();	
+	// Vector : 저장공간이 자동으로 증가/줄어드는 자료구조
+	// 초기화시 10개의 인스턴스가 저장되는 공간 생성. 
+	
+	/*
+	 * 비즈니스 로직
+	 * 구매 상품 목록에 대한 CRUD가 가능해야 함
+	 * Vector - Vector.add, Vector.remove, Vector.get, Vector.remove()에 해당
+	 */
 	
 	/*
 	 * 구매 비즈니스 로직
@@ -144,14 +187,85 @@ class Buyer {
 			System.out.println("---------------------------");
 		}
 		
-		buyList.put(buycnt, p);	// 1부터 저장
+		buyList.add(p);
+	}
+	
+	public int getMoney() {
+		return money;
+	}
+
+	public int getBonusPoint() {
+		return bonusPoint;
+	}
+
+	public int getBuycnt() {
+		return buycnt;
+	}
+
+	/*
+	 * 구매 목록 조회
+	 */
+	public void getBuyList() {
+		if(this.buyList.isEmpty()) {
+			System.out.println("구매 이력이 없습니다.");
+			return;
+		}
+		
+		int sum = 0;
+		String buyList = "";
+		
+		for(int i=0; i<this.buyList.size(); i++) {
+			// 형변환 : Object -> Products
+			Products products = this.buyList.get(i);
+			sum += products.price;
+			buyList += (i==0) ? "" + products : ", " + products;
+		}
+		System.out.println("총 구매 금액 : " + sum);
+		System.out.printf("구매 목록 \n " + buyList);
+		System.out.println();
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+
+	public void setBonusPoint(int bonusPoint) {
+		this.bonusPoint = bonusPoint;
+	}
+
+	public void setBuycnt(int buycnt) {
+		this.buycnt = buycnt;
+	}
+
+	public void setBuyList(Vector<Products> buyList) {
+		this.buyList = buyList;
 	}
 	
 	/*
-	 * 구메 목록 조회
+	 * 구매한 상품 반품
 	 */
-	Map<Integer, Products> getBuyList() {
+	// ex. 1 삭제
+	public void refund(int idx) {
 		
-		return this.buyList;
+		for(int i=0; i<this.buyList.size(); i++) {
+			if(idx==i+1) {
+				// 삭제
+				this.buyList.remove(i);
+				
+				// 구매자 금액 재설정
+				Products removeP = this.buyList.get(i);
+				System.out.println("반품할 제품 : " + removeP);
+
+				this.money += removeP.getPrice();
+				this.bonusPoint -= removeP.getBonusPoint();
+				
+			}
+			break;	
+		}
+
+		System.out.println("반품 완료!");
+		getBuyList();
+		
 	}
+
 }
