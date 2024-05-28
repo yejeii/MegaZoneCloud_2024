@@ -1,5 +1,7 @@
 package ch6;
 
+import java.util.Arrays;
+
 /**
  * - 객체지향의 공부 
  *   캡슐화, 상속, 추상화, 다형성 란?
@@ -116,6 +118,7 @@ public class OopEx {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		/* 객체 생성 */
 		// 다른 클래스를 재사용해서 코딩.
 		// String 과 같은 API 대신에 사용자 정의 클래스를 사용.
 		Tv t; //Tv변수만 선언된 상태이지, 인스턴스(메모리 적재) 상태가 아님. 
@@ -155,10 +158,7 @@ public class OopEx {
 		
 		//System.out.println(t.channel);
 		
-		Tv t2;
-		
-		
-		// Tv 객체 배열
+		/* Tv 객체 배열 */
 		Tv t3, t4, t5; // 변수 3개로 관리하게 됨. 
 						// 만약에 Tv 가 1000대라면... 변수가 1000개가 필요.
 			
@@ -178,6 +178,7 @@ public class OopEx {
 		tvArr[1] = new Tv();
 		tvArr[2] = new Tv();
 		
+		/* 지역 변수 사용 위치 */
 		int tmp;
 		
 		{
@@ -186,24 +187,17 @@ public class OopEx {
 			{
 				int tmp3;
 			}
-			// tmp3 = 0; tmp3 는 접근 유효 범위를 벗어난 상태임으로 사용 불가.
+//			 tmp3 = 0; tmp3 는 접근 유효 범위를 벗어난 상태임으로 사용 불가.
 		}
 		
 		// tmp2 = 0; tmp2 는 접근 유효 범위를 벗어난 상태임으로 사용 불가.
 					
 		
-		// 클래스 변수와 인스턴스 변수
-		// 카드 클래스
+		/* 클래스 변수와 인스턴스 변수 
+		 * 인스턴스 변수로의 접근 : 참조변수를 통한 멤버변수 사용은 인스턴스화가 되어야만 가능
+		 * 클래스 변수로의 접근 : 참조변수 사용 X, 클래스 이름으로 접근
+		 * */
 		Card c1 = new Card();
-		
-		System.out.println(c1.height);
-		
-		// 참조변수를 통한 멤버변수 사용은 인스턴스화가 되어야만 가능.
-		Card c2;
-		
-		// 따라서, 클래스 변수의 접근은 참조변수를 사용하면 안되고,
-		// 클래스 이름으로 접근을 해야함.
-		// System.out.println(c2.height);
 		System.out.println(Card.height);
 		
 		Card.height = 100; // 논리적으로 문제가 없나? 변경이 안되록 해야 함.
@@ -211,24 +205,22 @@ public class OopEx {
 		System.out.println(Card.height);
 		
 		
-		// 기본형 매개변수, 참조형 매개변수
+		/* 기본형 매개변수, 참조형 매개변수 */
 		Data d = new Data();
 		d.x = 10;
-		
 		System.out.println(d.x);
 		
 		// 기본형 매개변수
-		change(d.x);// d.x 가 전달되는 것이 아니고, d.x의 값인 10 이 전달됨.
-		
+		change(d.x);	// d.x 가 전달되는 것이 아니고, d.x의 값인 10 이 전달됨.
 		System.out.println("final = " + d.x);
 		
 		change(d);
-		
 		System.out.println("final 2 = " + d.x);
 		
 		Data d2 = copy(d);
-		System.out.println("d2.x: "+d2.x);
+		System.out.println("d2.x: " + d2.x);
 		
+		/* 클래스 메서드, 인스턴스 메서드 */
 		MyMath myMath = new MyMath();
 		
 		// 클래스 메서드 호출 : 인스턴스 생성되지 않은 상태
@@ -237,8 +229,6 @@ public class OopEx {
 		// 인스턴스 메서드 호출 : 인스턴스 생성이 필요
 		myMath.a = 400L;		// 인스턴스 메서드를 사용하기 위한 인스턴스 변수 초기화
 		myMath.b = 200L;
-		
-		// 인스턴스 메서드
 		System.out.println("myMath.add : "+myMath.add());
 		
 		// 클래스 메서드 
@@ -247,19 +237,17 @@ public class OopEx {
 		
 		// 가변 매개변수 메서드 호출
 		String[] strs = {"100", "200", "300"};
-		System.out.println("concatenate(\", \", strs) : " +concatenate(", ", strs));
+		System.out.println(concatenate(", ", strs));
 
-		concatenate(null);
-		concatenate2(null);
+		System.out.println(concatenate(null));
+		System.out.println(concatenate2(null));
 		
+		System.out.println(concatenate("--", new String[0]));
+		System.out.println(concatenate2(new String[0]));
+		System.out.println(concatenate("--", ""));
 		
-		concatenate("--", new String[0]);
-		concatenate2(new String[0]);
-		
-		
-		concatenate("--", "");
-//		concatenate2();		// 배열 매개변수 메서드 : 매개변수를 명시적으로 작성해야 함
-		concatenate3();		// 가변 매개변수 메서드 : 매개변수를 비워두고 싶을 때 
+//		System.out.println(concatenate2());	Error : 배열 매개변수 메서드 : 매개변수를 명시적으로 작성해야 함
+		System.out.println(concatenate3());	// 가변 매개변수 메서드 : 매개변수를 비워두고 싶을 때 
 		
 	} // end of Main()
 	
@@ -272,7 +260,7 @@ public class OopEx {
 			result += str + delim;
 		}
 		
-		return result;
+		return "concatenate(\"" + delim + "\", strs) : " + result;
 	}
 	
 	static String[] concatenate2(String[] strings) {
@@ -285,7 +273,7 @@ public class OopEx {
 	
 	/* 참조형 반환타입의 메서드 
 	 * main()이 static이기 때문에 메인 메서드에서 사용하려면 해당 메서드 역시 static이 되어야 함 
-	 * static 메모리에서 일반 메서드 메모리 접근이 불가 */
+	 * static : 메모리에서 일반 메서드 메모리 접근이 불가 */
 	static Data copy(Data d) {
 		Data tmp = new Data();
 		tmp.x = d.x;	// 인스턴스 변수의 값 복사
@@ -305,6 +293,55 @@ public class OopEx {
 		System.out.println(d.x);
 	}
 }
+
+class Tv {
+	// 속성, 멤버변수
+	String color;
+	boolean power;// true, false
+	private int channel;//private 는 접근제어지시자
+	
+	// channel 세터, 멤버변수의 값을 변경.
+	// public은 접근제어지시자,
+	// void 반환하는 값이 없음.
+	public void setChannel(int ch) {
+		// 유효한 channel 인지 체크
+		if(ch < 0) return;// channel 이 음수이면 적용하지 않음.
+		
+		channel = ch;//양수이면 멤버변수에 적용.
+	}
+	
+	// channel 게터, 메버변수의 값을 조회
+	public int getChannel() {
+		return channel;
+	}
+	
+	// 기능, 메소드
+	void power() { power = !power; };
+	void channelUp() { ++channel; };
+	void channelDown() { --channel; };
+	
+}
+
+//하트, 다이아몬드, 스페이스, 클로버
+//숫자와 무늬는 각각 고유하지만, 공통적인 것은 카트의 크기(폭, 높이)
+//클래스 변수의 대상(Card 클래스에서의 공유 대상 -> 수정 가능(수정 시, 전체 대상으로 공유됨)) : 카드의 크기
+//인스턴스 변수의 대상 : 숫자, 무늬
+class Card {
+	// 멤버변수(클래스, 인스턴스)
+	
+	// 인스턴스 멤버 변수 => 객체 생성 후 사용 가능. 고유
+	private String kind; //무늬
+	private int number;  //숫자
+	
+	// 클래스 멤버 변수 => 객체 생성하지 않고 사용 가능. 공유
+	static int width = 100;
+	static int height = 230;
+}
+
+/* 
+ * 기본형 매개변수, 참조형 매개변수 용 클래스
+ */
+class Data { int x; };
 
 /* 클래스 메서드, 인스턴스 메서드 관련 클래스 
  * this : 자기 참조 */
@@ -336,57 +373,4 @@ class MyMath {
 	/* 반환 타입은 오버로딩 조건에 해당 X
 	 * static int add(int a, int b) { return a+b; }
 	 */
-}
-
-// 기본형 매개변수, 참조형 매개변수 용 클래스
-class Data { int x; };
-
-
-// 하트, 다이아몬드, 스페이스, 클로버
-// 숫자와 무늬는 각각 고유하지만, 공통적인 것은 카트의 크기(폭, 높이)
-// 클래스 변수의 대상(Card 클래스에서의 공유 대상 -> 수정 가능(수정 시, 전체 대상으로 공유됨)) : 카드의 크기
-// 인스턴스 변수의 대상 : 숫자, 무늬
-class Card {
-	// 멤버변수(클래스, 인스턴스)
-	
-	// 인스턴스 멤버 변수 => 객체 생성 후 사용 가능. 고유
-	private String kind; //무늬
-	private int number;  //숫자
-	
-	// 클래스 멤버 변수 => 객체 생성하지 않고 사용 가능. 공유
-	static int width = 100;
-	static int height = 230;
-}
-
-
-
-class Tv {
-	// 속성, 멤버변수
-	String color;
-	boolean power;// true, false
-	private int channel;//private 는 접근제어지시자
-	
-	// channel 세터, 멤버변수의 값을 변경.
-	// public은 접근제어지시자,
-	// void 반환하는 값이 없음.
-	public void setChannel(int ch) {
-		// 유효한 channel 인지 체크
-		if(ch < 0) return;// channel 이 음수이면 적용하지 않음.
-		
-		channel = ch;//양수이면 멤버변수에 적용.
-	}
-	
-	// channel 게터, 메버변수의 값을 조회
-	public int getChannel() {
-		return channel;
-	}
-	
-	// 기능, 메소드
-	void power() { power = !power; };
-	void channelUp() { ++channel; };
-	void channelDown() { --channel; };
-	
-	
-	
-	
 }

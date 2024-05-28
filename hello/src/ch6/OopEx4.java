@@ -17,7 +17,7 @@ package ch6;
  *   결합도 낮음 : 클래스간의 관계를 약하게 함
  *   			즉, 코드 수정시 사용되는 다른 곳에 영향이 없도록 코드를 작성
  *   응집도 높음 : 관련 기능을 한 곳에서 관리가 되도록 함(도메인 지식..)
- *   ㄴ
+ *   
  * - 관계
  *   논리적으로 합당한 관계
  *   
@@ -59,9 +59,10 @@ package ch6;
  *   this : 멤버변수와 지역변수의 차이를 두고 싶어서 사용. 자기 클래스 안에서 구분을 위함
  *   super : 클래스 간의 관계에서 기반과 파생을 구분키 위함
  *   
- * - super()
+ * - super() : 메서드
  * 	 자식 클래스의 인스턴스를 생성하면, 자식멤버와 조상멤버가 모두 합쳐진 하나의 인스턴스가 생성됨 
  *   -> 파생 클래스에서 조상 클래스의 멤버를 사용할 수 있게 됨
+ *   -> super()는 조상 생성자를 호출해 조상멤버를 초기화하도록 함
  * 
  * - >생각해보기<
  *   인스턴스 생성 시 선택
@@ -224,9 +225,9 @@ class Child extends Parents {
 	}
 
 	void method2() {
-		System.out.println("x : " + x);				// 20
-		System.out.println("this.x : " + this.x);	// 20
-		System.out.println("super.x : " + super.x);	// 10
+		System.out.println("y : " + y);				// 20
+		System.out.println("this.y : " + this.y);	// 20
+		System.out.println("super.y : " + super.y);	// 10
 	}
 }
 

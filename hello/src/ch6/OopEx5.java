@@ -80,26 +80,24 @@ public class OopEx5 {
 		car = (Car2)fe;	
 		
 		// Car2 참조변수의 인스턴스 사용 범위 고려
-//		Car2.water();	Error : 파생 인스턴스의 멤버 사용 불가
+//		car.water();	Error : 파생 인스턴스의 멤버 사용 불가
 		
 		/* down casting : 기반 -> 파생 
 		 * 부모한텐 많은 자식이 을 수 있으니 casting할 클래스 타입을 명시해주는 것
 		 * 파생 인스턴스의 멤버 사용 가능 */
-//		fe2 = Car2; Error : Type mismatch: cannot convert from Car2 to FireEngine
+//		fe2 = car; Error : Type mismatch: cannot convert from Car2 to FireEngine
 		fe2 = (FireEngine)car;	// 명시적 형변환
 		// runtime error 발생치 않고 정상 종료
 		// 메모리 상에는 FireEngine의 인스턴스 존재
 		// FireEngine 파생 클래스는 기반 클래스인 Car2로부터 상속된 상태
 		// 메모리 상의 FireEngine 내부에는 Car2가 있음
-		// 
+
 		fe2.water();
 		
 		/* down casting 시 고려 사항 
 		 * up, down이 모두 다되는 경우가 있고, 아닌 경우가 있음
 		 * */
-		
 		Car2 car2 = new Car2();
-		Car2 car3 = null;
 		FireEngine fe3 = null;
 		
 		car2.drive();
