@@ -1,8 +1,3 @@
-/**
- * 
+/*
+ * module hello { }
  */
-/**
- * 
- */
-module hello {
-}
