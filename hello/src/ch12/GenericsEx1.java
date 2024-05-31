@@ -63,7 +63,9 @@ import java.util.ArrayList;
  *   - instanceof 연산자, new 연산자에서 타입 변수 T를 피연산자로 사용 불가
  *   
  * - Generics 란?
+ *   인스턴스 별로 원하는 타입을 지정해서 사용하므로 
  *   인스턴스 별로 다르게 동작되도록 만들려고 하는 자바의 기능!
+ *   
  *   
  *   
  *   
