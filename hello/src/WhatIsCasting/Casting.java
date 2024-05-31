@@ -27,6 +27,8 @@ public class Casting {
 		// Can't access to Dog's methods or attributes.
 //		myAnimal.growl();
 		
+		myAnimal.makeNoise();
+		
 	}
 	
 	/*

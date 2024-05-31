@@ -39,3 +39,22 @@
       
     이후,
     리엑트, 스프링부트, JPA를 배운 후 선행 프로젝트 결과물을 새로운 웹 기술로 마이그레이션 유도!!
+    
+    
+    
+    
+- 개발 시작시 생각해보기
+  
+  ex. 학원관리 서비스
+  1. 학생리스트를 메모리에 두고 계속 사용할 것인가? : InMemory  (ex. Collections의 max/min)
+  2. 학생리스트를 DB에 두고 계속 사용할 것인가? : OutMemory   (ex. DB sql의 max/min)
+  3. 학생리스트를 InMemory + OutMemory 함께 사용할 것인가? -> 동기화는 어떻게 할 것인가
+  
+    -> 우린 어디에 맞춰서 개발할 것인가? -> 기술로 연결..
+  
+  4. 서비스별로 InMemory와 OutMemory를 사용이 필요한가?
+     MSA(MicroServiceArchitecture)
+  5. 모놀리식의 MSA를 할 것인가? 아님 클라우드 기반의 MSA를 할 것인가?
+ 
+    -> 개발 덩치가 점점 커지기 때문에 코드 유지보수를 위해 모듈화, DDD, TDD, 애자일 방법 등의 개발론이 필요
+ 

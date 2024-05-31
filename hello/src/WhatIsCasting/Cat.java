@@ -1,10 +1,5 @@
 package WhatIsCasting;
 
-/**
- * "What is super"
- * https://youtu.be/Qb_NUn0TSAU?si=jdu6HCG95plTX0ib
- * 
- */
 public class Cat extends Animal{
 
 	String catFoodPreference;

@@ -2,8 +2,10 @@ package ch11;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,13 +13,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Map.Entry;
+
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
  * 컬렉션 프레임워크(Collection Framework)
  * 
- * 데이터 집합을 저장하는 클래스들을 표준화한 설계
+ * 데이터 집합을 저장하는 클래스들을 표준화한 설계 : 표준화된 개발을 위함
  * 
  * 컬렉션 : 데이터 집합, 그룹
  * 프레임워크 : 표준화된 프로그래밍 방식
@@ -27,6 +33,8 @@ import java.util.TreeSet;
  * 				  컬렉션 클래스에 저장된 데이터를 읽고, 추가, 삭제 하는 등 컬렉션(데이터 집합)을 다루는데 가장 기본적인 메서드 정의
  * 
  * - List : 순서가 있고, 중복을 허용하는 데이터 집합
+ * 			단점> 크기가 고정됨 -> 저장 공간의 확장성이 없다. -> ArrayList 등장
+ * 
  * 		ArrayList, LinkedList, Stack, Vector 등
  * 
  * 		LinkedList : 자료의 주소값으로 서로 연결되어 있는 구조
@@ -99,7 +107,17 @@ import java.util.TreeSet;
  * - Map : key-value 상으로 이루어진 데이터 집합
  * 		   순서 유지 X, 키 중복 X, 값 중복 O
  * 		HashMap, TreeMap, HashTable, Properties 등
+ * 		
+ * 		HashMap : 데이터 저장 형태가 선형구조로 저장
+ * 				  탐색방법 : 순차 탐색 구조 -> 검색 성능 low
  * 
+ * 		TreeMap : 데이터 저장 형태가 이진구조(왼쪽, 오른쪽)로 저장
+ * 				  이진 탐색으로 진행 -> 검색 성능 high
+ * 
+ * 		ㅊ : key, value가 String
+ * 					 Iterator가 Enumeration임
+ * 
+ * 		
  * 
  */
 public class CollectionsFWEx1 {
@@ -132,6 +150,17 @@ public class CollectionsFWEx1 {
 		
 		/* LinkedList 와 ArrayList 탐색 시간 비교 
 		 * ArrayList가 월등히 빠름 월.등.히 
+		 * 
+		 * LinkedList : 데이터가 노드 구조로 연결됨 
+		 * 				-> 다음 데이터 탐색 시 노드에 저장된 주소를 참조해서 이동
+		 * ArrayList : 데이터 구조의 시작과 끝 사이가 모두 데이터인 연결된 데이터 구조를 가짐 
+		 * 				-> 다음 데이터 탐색시 참조해서 이동과 같은 탐색 작업이 없음  
+		 * 			   배열의 단점(저장 공간 확장성 X)을 개선한 배열구조이므로 저장 공간의 확장이 자유로움
+		 * 			   확장성이라는 특징 때문에 기존 배열에 공간이 없으면 새로운 배열 생성 후 기존 배열의 데이터를 복사함
+		 * 
+		 * 			   >고려사항<
+		 * 			   저장된 대상의 데이터가 적으면 OK
+		 * 			   대량의 데이터의 경우 ArrayList 객체를 사용할 것인지 고려해야 함
 		 * */
 		LinkedList ll = new LinkedList<>();
 		ArrayList al = new ArrayList(100000);
@@ -146,6 +175,7 @@ public class CollectionsFWEx1 {
 //		System.out.println("ArrayList 삭제 시간 : " + delete(al));
 		
 		/* ---------- Iterator 사용 ----------- */
+		
 		ArrayList al2 = new ArrayList<>();
 		al2.add("1");
 		al2.add("2");
@@ -203,6 +233,10 @@ public class CollectionsFWEx1 {
 		System.out.println("Arrays.equals : " + Arrays.equals(str2D, str2D2));
 		System.out.println("Arrays.deepEquals : " + Arrays.deepEquals(str2D, str2D2));
 			
+		
+		System.out.println("0000000000000000000");
+		String str = "Tige";
+		System.out.println(str.compareTo("Tiger"));
 
 		
 		
@@ -279,6 +313,136 @@ public class CollectionsFWEx1 {
 			}
 		} 
 		
+		System.out.println();
+		
+		// HashMap에서 Iterator 사용
+		HashMap hMap2 = new HashMap<>();
+		hMap2.put("김자바", 90);	// 90 -> Integer(기본형을 객체로 포장)
+								// Integer 도 클래스이므로 Object 상속받음
+		hMap2.put("이자바", 57);	
+		hMap2.put("박자바", 27);	
+		hMap2.put("최자바", 85);	
+		hMap2.put("정자바", 98);	
+		hMap2.put("한자바", 100);
+		
+		/* Iterator 사용
+		 * 1. Set
+		 * 2. Set에서 Iterator
+		 */
+		Set set2 = hMap2.entrySet();
+		Iterator it2 = set2.iterator();
+		
+		while (it2.hasNext()) {
+			// Entry : Map에서 key, value를 함께 사용하기 위한 타입
+			Map.Entry<String, Integer> entry = (Entry<String, Integer>) it2.next();
+			System.out.println("이름 : " + entry.getKey() + ", 점수 : " + entry.getValue());
+		}
+		
+		/* HashMap에서 value만 출력 */
+		Collection values = hMap2.values();
+		it2 = values.iterator();
+		
+		int total = 0;
+		
+		while(it2.hasNext()) {
+			total += (int)(it2.next());
+		}
+		
+		System.out.println("총점 : " + total);
+		System.out.println("평균 : " + (float)total/hMap2.size());
+		
+		// 학생 집합 처리
+		set = hMap2.keySet();
+		System.out.println("학생 명부 : " + set);
+		
+		// 최고점수, 최하점수
+		System.out.println("최고 점수 : " + Collections.max(values));
+		System.out.println("최하 점수 : " + Collections.min(values));
+		
+		System.out.println();
+		
+		/* ------------------ TreeMap ------------------ */		
+		
+		String[] data = {"A", "K", "A", "K", "D", "K", "A", "Z", "K", "K", "Z", "D"};
+		
+		TreeMap tMap = new TreeMap<>();
+		
+		/* 결과(문자열 빈도수 결과)
+		 * A : 3
+		 * K : 5
+		 * D : 2
+		 * Z : 2
+		 */
+		for (int j = 0; j < data.length; j++) {
+			if(tMap.containsKey(data[j])) {
+				// 배열의 문자가 Map에 key로 존재하는 경우, 빈도수 증가
+				Integer val = (Integer) tMap.get(data[j]);
+				tMap.put(data[j], val.intValue() + 1);	// If the map previously contained a mapping for the key, the old value is replaced.
+			} else {
+				// tMap의 키로 등록
+				tMap.put(data[j], new Integer(1));	
+			}
+		}
+
+		// Iterator 를 활용해서 출력
+		Iterator it3 = tMap.entrySet().iterator();
+		
+		while(it3.hasNext()) {
+			Map.Entry<String, Integer> entry = (Entry<String, Integer>) it3.next();
+			System.out.println(entry.getKey() + " : " + entry.getValue());
+		}
+		
+		/* 빈도수를 내림차순으로 정렬해서 출력
+		 * 1. Collections.sort() 
+		 *    sort()의 기본 정렬은 오름차순 
+		 * 2. Comparator 인터페이스 구현 (오름차순의 반대)
+		 * 3. Collections.sort()의 매개변수로 구현한 Comparator 인터페이스 대입
+		 * 
+		 * 4. sort()의 첫번째 매개변수는 List 타입..
+		 *    -> Map을 List화해야 함
+		 *    List 의 구현체인 ArrayList 가 되도록 함. => ArrayList 의 복사 생성자.
+		 *    
+		 *    List : 인터페이스
+		 *    -> 복사생성자 활용! -> 구현체가 있어야 복사 생성자 활용 가능
+		 *    ArrayList 클래스에 복사 생성자가 있는지 확인
+		 *    
+		 *    ArrayList(Collection<? extends E> c)
+		 *    
+		 *    복사생성자의 매개변수가 Collection 임. 바로 사용 못함.
+		 *    Collection - List - ArrayList
+		 *    					- Set
+		 *    
+		 *    Map -> Collection(list or set) -> list
+		 *    Map 클래스의 entrySet() : Set 리턴
+		 */ 
+		
+		List<Set<Map<String, Integer>>> liMap = new ArrayList<>(tMap.entrySet());
+		
+		Collections.sort(liMap, new DecendingComparator2());
+		
+		Iterator li4 = liMap.iterator();
+		while(li4.hasNext()) {
+			System.out.println(li4.next());
+		}
+		
+		System.out.println();
+		
+		/* ---------------------- Properties -------------------- */
+		
+		Properties prop = new Properties();
+		
+		prop.setProperty("size", "10");
+		prop.setProperty("capacity", "20");
+		prop.setProperty("timeout", "30");
+		
+		Enumeration e = prop.propertyNames();
+		
+		while(e.hasMoreElements()) {
+			String element = (String) e.nextElement();
+			System.out.printf("%s - %s \n", element, prop.getProperty(element));
+		}
+		
+		
 		
 	}
 	
@@ -320,6 +484,19 @@ public class CollectionsFWEx1 {
  * 역방향 정렬을 위한 클래스 
  * Comparator 인터페이스 구현 */
 class DecendingComparator implements Comparator {
+	public int compare(Object o1, Object o2) {
+		if ( o1 instanceof Comparable && o2 instanceof Comparable )	{
+			Comparable c1 = (Comparable)o1;
+			Comparable c2 = (Comparable)o2;
+			
+			return c1.compareTo(o2) * -1;
+		}
+		
+		return -1;
+	}
+}
+
+class DecendingComparator2 implements Comparator {
 
 	@Override
 	public int compare(Object o1, Object o2) {
@@ -327,11 +504,21 @@ class DecendingComparator implements Comparator {
 		/* Comparable의 compareTo를 이용할 것 
 		 * compareTo() : 순방향으로 나오기 때문에 -1만 곱하면 decending이 될 것 */
 		
-		if (o1 instanceof Comparable && o2 instanceof Comparable) {
-			Comparable c1 = (Comparable) o1;
-			return c1.compareTo(o2) * -1;
+		System.out.println(o1.getClass()); // TreeMap
+		
+		if(o1 instanceof Map.Entry && o2 instanceof Map.Entry) {
+			Map.Entry<String, Integer> e1 = (Map.Entry<String, Integer>)o1;
+			Map.Entry<String, Integer> e2 = (Map.Entry<String, Integer>)o2;
+			
+			Integer val1 = e1.getValue();
+			Integer val2 = e2.getValue();
+			
+			return val1.compareTo(val2) * -1;
+			
 		}
 		return -1;
 	}
 	
 }
+
+
