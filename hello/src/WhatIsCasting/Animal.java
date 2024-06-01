@@ -12,6 +12,10 @@ public class Animal {
 		this.name = name;
 	}
 	
+	/*
+	 * Each Animal has the ablitiy to make noise.
+	 * And each Sub class can override this method with their own make noise implementation if they want.
+	 */
 	public void makeNoise() {
 		System.out.println("Hello, I am an animal");
 	}

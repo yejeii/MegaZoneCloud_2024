@@ -1,14 +1,9 @@
 package WhatIsCasting;
 
-/**
- * "What is Upcasting and Downcasting"
- * https://youtu.be/HpuH7n9VOYk?si=2ir9h1IdhJEgGU3Q
- * 
- * 
- * 
- */
 public class Dog extends Animal {
 
+	String dogFoodPreference;
+	
 	@Override
 	public void makeNoise() {
 		System.out.println("Woof Woof");

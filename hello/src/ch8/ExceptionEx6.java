@@ -91,53 +91,47 @@ package ch8;
 //	}
 //}
 
-/* 연결된 예외(Chained Exception) 
- * - 하나의 큰 분류의 예외로 묶어서 관리하고 싶은 경우. */
+/* 연결된 예외(Chained Exception) */
 public class ExceptionEx6 {
 	public static void main(String[] args) {
+		
+		/* - 1. 하나의 큰 분류의 예외로 묶어서 관리하고 싶은 경우. */
 		try {
 			install();
 		} catch (InstallException e) {
-			if(e.getCause() instanceof SpaceException) {
-				System.out.println("InstallException의 원인 : SpaceException");
-			}
-			if(e.getCause() instanceof MemoryException) {
-				System.out.println("InstallException의 원인 : MemoryException");
-			}
-			
-			System.out.println("에러 메세지 : " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			deleteTempFiles();
 		}
 		
-		/* - checked 예외를 unchecked로 변경하려고 하는 경우 
-		 *   Exception -> RunException으로 형변환처럼 되는 것 같지만, 실제론 연결된 예외임 */
+		/* 2. checked -> unchecked
+		 * Exception -> RunException으로 형변환처럼 되는 것 같지만, 실제론 연결된 예외임
+		 * 
+		 * Exception -> RuntimeException으로 변경됨
+		 * RuntimeException(met)
+		 *	 -> super((Throwable)met)
+		 * 		-> Exception((Throwable)met)
+		 * 			-> super((Throwable)met)
+		 * 				-> Throwable((Throwable)met)
+		 *  					-> this.cause = (Throwable)met;
+		 *	
+		 * Throwable class의 cause 인스턴스 변수에 저장됨
+		 * 자기 자신의 원인이 되는 예외 -> 연결된 예외라고 함
+		 *
+		 * 결과 : checked -> unchecked 로 변경됨. 컴파일 체크를 하지 않게 됨
+		 */
 		MemoryException met = new MemoryException("unchecked 예외용");
-		
-		// Exception -> RuntimeException으로 변경됨
-		// RuntimeException(met)
-		// 	 -> super((Throwable)met)
-		// 		-> Exception((Throwable)met)
-		// 			-> super((Throwable)met)
-		// 				-> Throwable((Throwable)met)
-		// 					-> this.cause = (Throwable)met;
-		
-		// Throwable class의 cause 인스턴스 변수에 저장됨
-		// 자기 자신의 원인이 되는 예외 -> 연결된 예외라고 함
-		
-		// 결과 : checked -> unchecked 로 변경됨. 컴파일 체크를 하지 않게 됨
 		RuntimeException rte = new RuntimeException(met);
 	}
 	
-	 /* Exception을 묶어서 처리하고 싶음 
-	  * throws InstallException 
+	 /* 1. Exception을 묶어서 처리하고 싶은 경우
+	  *    throws InstallException 
 	  */
 	static void install() throws InstallException{
 		try {
 			startInstall();
 		} catch (SpaceException e) {
-			InstallException ie = new InstallException("설치 중 에러");
+			InstallException ie = new InstallException("설치 중 예외 발생");
 			
 			// InstallException의 원인 예외를 등록할 수 잇음
 			// 원인 예외를 InstallExcetion의 인스턴스 멤버변수로 관리하고 있으니 "연결된 예외"라고 할 수 있음
@@ -148,19 +142,17 @@ public class ExceptionEx6 {
 			// Throwable은 모든 예외의 최상위 부모이므로 
 			// 모든 예외 클래스는 자신을 발생시킨 원인 예외를 Throwable의 cause 변수에 저장(가질) 수 있음
 			ie.initCause(e);	
-			
 			throw ie;
 		} catch (MemoryException e) {
-			InstallException ie = new InstallException("설치 중 에러");
+			InstallException ie = new InstallException("설치 중 예외 발생");
 			ie.initCause(e);
 			throw ie;
 		}
 		
-		
 	}
 	
 	/* 프로그램 설치와 관련된 메서드 작성 */
-	static void startInstall() throws SpaceException, MemoryException {
+	static void startInstall() throws MemoryException, SpaceException {
 		if(!enoughSpace()) throw new SpaceException("설치 실패 : 설치공간 부족");
 		if(!enoughMemory()) throw new MemoryException("설치 실패 : 메모리 여유 부족");
 	}
