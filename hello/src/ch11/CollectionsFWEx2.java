@@ -80,10 +80,8 @@ public class CollectionsFWEx2 {
 		 * 메서드를 직접 구현하거나 다른 메서드로 대체할 수 있는지 확인
 		 */
 		
-		Collections.fill(list, 9); 	// 요소를 모두 9로 변경
+//		Collections.fill(list, 9); 	// 요소를 모두 9로 변경
 //		System.out.println(list);
-		
-		Collections.fill(newList, 9);
 		
 		Collections.replaceAll(list, 2, 1);
 		System.out.println(list);
