@@ -59,18 +59,23 @@ import java.util.ArrayList;
  * 
  * - Generics 사용 제한
  *   - static 멤버에 타입 변수 T 사용 불가
+ *     static 멤버는 인스턴스 멤버 X -> 인스턴스 생성과 무관
+ *     하지만, 타입 변수 T는 인스턴스임 -> 컴파일 시점에 타입이 지정되므로 인스턴스 변수로 간주됨.
+ *     
+ *     class Box<T> {
+ *     	// class 멤버
+ *     	static T item;	// ERROR
+ *     }
+ *   
  *   - Generics 타입의 배열 생성 불가
- *   - instanceof 연산자, new 연산자에서 타입 변수 T를 피연산자로 사용 불가
+ *     -> 컴파일 시점에 타입이 지정되므로 ? 클래스로 인스턴스 생성 불가
+ *     T[] tmpArr = new T[100]; // ERROR
+ *  
+ *   -> instanceof 연산자, new 연산자에서 타입 변수 T를 피연산자로 사용 불가
  *   
  * - Generics 란?
  *   인스턴스 별로 원하는 타입을 지정해서 사용하므로 
  *   인스턴스 별로 다르게 동작되도록 만들려고 하는 자바의 기능!
- *   
- *   
- *   
- *   
- * 
- * 
  * 
  */
 public class GenericsEx1 {
