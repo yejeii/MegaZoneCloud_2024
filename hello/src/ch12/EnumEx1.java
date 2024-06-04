@@ -8,6 +8,8 @@ package ch12;
  * 열거형의 정의
  * 
  * 	- enum Direction { EAST, SOUTH, NORTH, WEST }
+ * 	  -> EAST, SOUTH, NORTH, WEST 하나하나가 컴파일 시 static 객체가 되어 static 영역에서 공유된다.
+ * 
  *  - class Unit {
  *  	int x, y;		// 유닛 위치
  *  	Direction dir;	// 방향 정보 : 열거형을 인스턴스 변수로 선언
