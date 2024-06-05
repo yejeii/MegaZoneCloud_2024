@@ -48,16 +48,7 @@ enum Direction3 {
 		return DIR_ARR[idx-1];
 				
 	}
-	
-//	public String getEnum(int value) {
-//		return switch (value) {e
-//		case 1 -> "EAST";
-//		case 2 -> "SOUTH";
-//		case 3 -> "WEST";
-//		default -> "NORTH";
-//		};
-//	}
-	
+
 	public String toString() {
 		return name() + " " + getSymbol();
 	}
@@ -72,18 +63,10 @@ public class EnumEx2 {
 		}
 		
 		// 위치정보를 사용해서 상수를 반환하는 메서드 사용
-//		for(Direction3 dir : Direction3.values()) {
-//			dir.getEnum(dir.getValue());
-//		}
-		
 		Direction3 d3 = Direction3.direction3(1);
 		
 		
 		// 상수명, 상수값, 심볼 정보 출력
-//		for(Direction3 dir : Direction3.values()) {
-//			dir.getEnum(dir.getValue()) + " : " + dir.getValue() + " : " + dir.getSymbol();
-//		}
-		
 		System.out.printf("d3 = %s, %d, %s %n", d3.name(), d3.getValue(), d3.getSymbol());
 		
 		

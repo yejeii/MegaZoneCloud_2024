@@ -12,13 +12,16 @@ package ch12;
  * 
  * >정리<
  * enum 에서
- * 상수 하나(ex. BUS)는 하나의 public 객체.
- * -> 상수값, 심볼, 기능적인 메서드를 가질 수 있음
+ * 상수 하나(ex. BUS)는 하나의 private final static 객체.
+ * 
+ * -> 컴파일 시, static 객체로 올라가므로 상수값, 심볼, 기능적인 메서드를 가질 수 있음
+ * 		1. 상수값, 심볼은 상수(ex. BUS - 객체)의 final 값(== 값이 고정된 하나의 인스턴스 변수)
+ * 		2. 메서드는 이런 final 값을 사용해서 원하는 값을 추출하기 위한 기능
  * -> 이를 위해선 
- * 		1. 상수값을 저장할 private 인스턴스 변수와
+ * 		1. 상수값을 저장할 private final 인스턴스 변수와		-> private final : enum 클래스에서만 접근 가능한 절대값. 
  * 		2. 인스턴스 변수를 초기화하는 private 생성자,
- * 			( private 이다보니 하나의 인스턴스를 의미한다 )
- * 		3. public getter() 가 필요하다
+ * 			( private 이다보니 하나의 인스턴스를 의미한다 )	
+ * 		3. public getter() 가 필요하다					-> private final 인스턴스 변수를 가져오기 위한 public get 처리
  * 			( enum 자체는 고정된 상수이므로 setter() 따로 필요 X )
  * 
  * 상수에 기능 추가하기
