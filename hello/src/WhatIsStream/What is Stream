@@ -1,0 +1,29 @@
+Collection : To represent group of data/objects as single entity.
+
+java.util.Stream
+- To process the data from collection.
+- To process the data from collection, Streams use 2 mechanism.
+    1. Filter
+    2. Map
+   
+참고>
+Different with java.io.Stream..
+    -> Use for the file.
+java.util.Stream
+    -> Use for collection.
+
+1. Filter
+  : Base on the condition, 
+    filter some data and put them into another collection, or use for some other purpose.
+2. Map
+  : Get each object(element) from collection, 
+    and apply some operation and put them into another collection, or use for some other purpose. 
+Point is that the original Collection do not modified.
+    
+    
+- Stream is kind of API
+  Getting the collection's data into the stream, and process it using filter or map or other operation which Stream supports.
+  And after processing, we can store data in some other collection.
+  
+- Stream's operation create by Lambda expression.
+  Wanna implement the Stream to process the data from collection, we use Lambda expression.
