@@ -1,8 +1,11 @@
-package effecJava7;
+package effectJava7;
 
 import java.util.function.DoubleBinaryOperator;
 
-public enum Operation {
+/**
+ * Item 42
+ */
+enum Operation {
 	
 	/* 람다 적용 전 */
 //	PLUS("+") {
@@ -56,3 +59,15 @@ public enum Operation {
 	}
 	
 }
+
+public class Item42_Operation {
+
+	public static void main(String[] args) {
+
+		System.out.println(Operation.PLUS.apply(5, 7));
+	}
+
+}
+
+
+
