@@ -1,4 +1,4 @@
-package designPattern_S;
+package gof_BridgeP;
 
 public interface Display {
 	void title(Draft draft);

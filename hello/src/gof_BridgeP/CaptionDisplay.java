@@ -1,4 +1,4 @@
-package designPattern_S;
+package gof_BridgeP;
 
 public class CaptionDisplay implements Display {
 
